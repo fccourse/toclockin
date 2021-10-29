@@ -14,7 +14,7 @@
     <artifactId>toclockin-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>toclockin-api</name>
-    <description>Time and Attendance API</description>
+    <description>Employee Time Tracking Record API.</description>
 
     <properties>
         <java.version>11</java.version>
