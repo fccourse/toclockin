@@ -3,6 +3,7 @@ package digital.ilia.toclockinapi.entities;
 import digital.ilia.toclockinapi.entities.enums.TimeTrackingType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,10 +15,14 @@ public class TimeTrackingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private LocalDateTime timeTrackingDate;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TimeTrackingType timeTrackingType;
+
+    private String userMessage;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -58,6 +63,14 @@ public class TimeTrackingRecord {
         this.user = user;
     }
 
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +90,7 @@ public class TimeTrackingRecord {
                 "id=" + id +
                 ", timeTrackingDate=" + timeTrackingDate +
                 ", timeTrackingType=" + timeTrackingType +
+                ", userMessage='" + userMessage + '\'' +
                 ", user=" + user +
                 '}';
     }

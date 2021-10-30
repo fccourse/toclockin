@@ -1,6 +1,8 @@
 package digital.ilia.toclockinapi.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -14,11 +16,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
+    @Email
     @Column(unique = true)
     private String email;
 
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -31,8 +36,6 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<TimeTrackingRecord> timeTrackingRecords;
-
-    private String userMessage;
 
     public User() {
     }
@@ -85,14 +88,6 @@ public class User {
         this.timeTrackingRecords = timeTrackingRecords;
     }
 
-    public String getUserMessage() {
-        return userMessage;
-    }
-
-    public void setUserMessage(String userMessage) {
-        this.userMessage = userMessage;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,7 +110,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 ", timeTrackingRecords=" + timeTrackingRecords +
-                ", userMessage='" + userMessage + '\'' +
                 '}';
     }
 }
