@@ -14,7 +14,7 @@ CREATE TABLE `tb_time_tracking_record`
     `id`                 bigint(20)  NOT NULL AUTO_INCREMENT,
     `time_tracking_date` datetime(6) NOT NULL,
     `time_tracking_type` varchar(20) NOT NULL,
-    `user_message`       varchar(255) DEFAULT NULL,
+    `user_message`       varchar(200) DEFAULT NULL,
     `user_id`            bigint(20)  NOT NULL,
     PRIMARY KEY (`id`),
     KEY `KEY_USER_ID` (`user_id`),
