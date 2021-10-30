@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "tb_user")
 public class User {
 
     @Id
@@ -19,6 +19,7 @@ public class User {
     @NotNull
     private String name;
 
+    @NotNull
     @Email
     @Column(unique = true)
     private String email;

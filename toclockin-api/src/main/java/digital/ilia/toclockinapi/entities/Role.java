@@ -1,16 +1,18 @@
 package digital.ilia.toclockinapi.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role")
+@Table(name = "tb_role")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String roleName;
 
     public Role() {

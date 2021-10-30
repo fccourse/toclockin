@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "time_tracking_record")
+@Table(name = "tb_time_tracking_record")
 public class TimeTrackingRecord {
 
     @Id
@@ -24,6 +24,7 @@ public class TimeTrackingRecord {
 
     private String userMessage;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
