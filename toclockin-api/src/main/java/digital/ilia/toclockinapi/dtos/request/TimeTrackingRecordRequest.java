@@ -1,4 +1,9 @@
-package digital.ilia.toclockinapi.dto.request;
+package digital.ilia.toclockinapi.dtos.request;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +13,9 @@ import java.util.Objects;
 public class TimeTrackingRecordRequest {
 
     @NotNull
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonProperty("date")
     private LocalDateTime timeTrackingDate;
 
     @Size(min = 3, max = 200)

@@ -1,6 +1,6 @@
 package digital.ilia.toclockinapi.entities;
 
-import digital.ilia.toclockinapi.dto.request.TimeTrackingRecordRequest;
+import digital.ilia.toclockinapi.dtos.request.TimeTrackingRecordRequest;
 import digital.ilia.toclockinapi.entities.enums.TimeTrackingType;
 
 import javax.persistence.*;

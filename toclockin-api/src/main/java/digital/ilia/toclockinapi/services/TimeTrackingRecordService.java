@@ -1,6 +1,6 @@
 package digital.ilia.toclockinapi.services;
 
-import digital.ilia.toclockinapi.dto.request.TimeTrackingRecordRequest;
+import digital.ilia.toclockinapi.dtos.request.TimeTrackingRecordRequest;
 import digital.ilia.toclockinapi.entities.TimeTrackingRecord;
 import digital.ilia.toclockinapi.entities.User;
 import digital.ilia.toclockinapi.entities.enums.TimeTrackingType;
