@@ -32,6 +32,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<TimeTrackingRecord> timeTrackingRecords;
 
+    private String userMessage;
+
     public User() {
     }
 
@@ -75,6 +77,22 @@ public class User {
         this.roles = roles;
     }
 
+    public List<TimeTrackingRecord> getTimeTrackingRecords() {
+        return timeTrackingRecords;
+    }
+
+    public void setTimeTrackingRecords(List<TimeTrackingRecord> timeTrackingRecords) {
+        this.timeTrackingRecords = timeTrackingRecords;
+    }
+
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,6 +114,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
+                ", timeTrackingRecords=" + timeTrackingRecords +
+                ", userMessage='" + userMessage + '\'' +
                 '}';
     }
 }
