@@ -1,6 +1,8 @@
 package digital.ilia.toclockinapi.services;
 
 import digital.ilia.toclockinapi.dtos.request.TimeTrackingRecordRequest;
+import digital.ilia.toclockinapi.dtos.response.handler.HandlerTimeTrackingRecord;
+import digital.ilia.toclockinapi.dtos.response.handler.HandlerTimeTrackingType;
 import digital.ilia.toclockinapi.entities.TimeTrackingRecord;
 import digital.ilia.toclockinapi.entities.User;
 import digital.ilia.toclockinapi.entities.enums.TimeTrackingType;
@@ -28,47 +30,63 @@ public class TimeTrackingRecordService {
         this.userRepository = userRepository;
     }
 
-    public void saveTimeTrackingRecord(TimeTrackingRecordRequest request, Long userId) {
+    public HandlerTimeTrackingRecord saveTimeTrackingRecord(TimeTrackingRecordRequest request, Long userId) {
         var todayDate = request.getTimeTrackingDate();
 
         if (isSaturdayOrSunday(todayDate)) {
-            logger.info("It is not possible to register the point on weekends.");
+            return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.NOT_WEEKENDS,
+                    "It is not possible to register the point on weekends.", null);
         } else {
             User user = userRepository.findById(userId).get();
             List<TimeTrackingRecord> todayTimeTrackings = getTodayTimeTrackingRecords(user, request.getTimeTrackingDate());
 
             if (todayTimeTrackings.size() >= 4) {
-                logger.info("You have already registered all the points of the day.");
+                return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.ALREADY_DAY,
+                        "You have already registered all the points of the day.", null);
             } else {
-                validateTimeTrackingRecord(request, user, todayTimeTrackings);
+                return validateTimeTrackingRecord(request, user, todayTimeTrackings);
             }
         }
     }
 
-    private void validateTimeTrackingRecord(TimeTrackingRecordRequest request, User user, List<TimeTrackingRecord> todayTimeTrackings) {
+    private HandlerTimeTrackingRecord validateTimeTrackingRecord(TimeTrackingRecordRequest request, User user, List<TimeTrackingRecord> todayTimeTrackings) {
         var typeNumber = todayTimeTrackings.size();
+
+        var messageReturn = "created";
+        HandlerTimeTrackingType type = HandlerTimeTrackingType.CREATED;
+        TimeTrackingRecord timeTracking = null;
 
         switch (typeNumber) {
             case 0:
-                saveTimeTrackingRecordByType(request, user, TimeTrackingType.ENTRY);
+                timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.ENTRY);
                 break;
             case 1:
-                saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_START);
+                timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_START);
                 break;
             case 2:
                 Long timeDifferenceLunch = timeDifferenceLunch(todayTimeTrackings, request.getTimeTrackingDate());
                 if (timeDifferenceLunch <= 3600000) {
-                    logger.info("There should be a one-hour lunch break.");
+                    type = HandlerTimeTrackingType.ONE_HOUR_LUNCH;
+                    messageReturn = "There should be a one-hour lunch break.";
                 } else {
-                    saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_RETURN);
+                    timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_RETURN);
                 }
                 break;
             case 3:
-                saveTimeTrackingRecordByType(request, user, TimeTrackingType.EXIT);
+                timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.EXIT);
                 break;
             default:
-                logger.info("Unexpected operation.");
+                type = HandlerTimeTrackingType.UNEXPECTED_OPERATION;
+                messageReturn = "Unexpected operation.";
         }
+
+        return setHandlerTimeTrackingRecord(type, messageReturn, timeTracking);
+    }
+
+    private HandlerTimeTrackingRecord setHandlerTimeTrackingRecord(HandlerTimeTrackingType type, String message, TimeTrackingRecord timeTrackingRecord) {
+        HandlerTimeTrackingRecord handler = new HandlerTimeTrackingRecord(message, type, timeTrackingRecord);
+        logger.info(message);
+        return handler;
     }
 
     private TimeTrackingRecord saveTimeTrackingRecordByType(TimeTrackingRecordRequest request, User user, TimeTrackingType type) {
@@ -81,7 +99,7 @@ public class TimeTrackingRecordService {
                 .filter(t -> t.getTimeTrackingType() == TimeTrackingType.LUNCH_START)
                 .map(t -> ZonedDateTime.of(t.getTimeTrackingDate(), ZoneId.systemDefault()).toInstant().toEpochMilli())
                 .reduce(0L, (total, hour) -> {
-                    Long now = ZonedDateTime.of(timeTrackingDate, ZoneId.systemDefault()).toInstant().toEpochMilli();
+                    long now = ZonedDateTime.of(timeTrackingDate, ZoneId.systemDefault()).toInstant().toEpochMilli();
                     return now - (total + hour);
                 });
     }
