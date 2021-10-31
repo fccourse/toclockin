@@ -1,6 +1,6 @@
 spring:
   application:
-    name: TOCLOCKIN
+    name: toclockin
   datasource:
     url: jdbc:mariadb://localhost:3306/toclockindb?createDatabaseIfNotExist=true&useSSL=false
     username: root
@@ -10,8 +10,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8083/eureka
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 server:
-  port: ${PORT:0}
+  port: 8081

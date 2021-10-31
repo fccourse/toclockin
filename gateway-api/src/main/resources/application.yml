@@ -3,17 +3,18 @@ server:
 
 spring:
   application:
-    name: GATEWAY-API
+    name: gateway-api
   cloud:
     gateway:
       routes:
       - id: myRouteClockIn
-        uri: lb://TOCLOCKIN
+        uri: lb://toclockin
         predicates:
         - Path=/toclockin/**
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
     discovery:
       enabled: true
 
