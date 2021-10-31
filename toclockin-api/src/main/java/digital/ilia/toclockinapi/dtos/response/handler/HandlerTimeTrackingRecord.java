@@ -15,6 +15,12 @@ public class HandlerTimeTrackingRecord {
     public HandlerTimeTrackingRecord() {
     }
 
+    public HandlerTimeTrackingRecord(HandlerTimeTrackingRecord handle) {
+        this.message = handle.getMessage();
+        this.type = handle.getType();
+        this.timeTrackingRecord = handle.getTimeTrackingRecord();
+    }
+
     public HandlerTimeTrackingRecord(String message, HandlerTimeTrackingType type) {
         this.message = message;
         this.type = type;
