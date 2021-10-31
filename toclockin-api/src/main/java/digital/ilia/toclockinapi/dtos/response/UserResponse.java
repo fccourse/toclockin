@@ -11,13 +11,15 @@ public class UserResponse {
     private Long id;
     private String name;
     private String email;
+    private String password;
 
     private Set<Role> roles;
 
-    public UserResponse(Long id, String name, String email, Set<Role> roles) {
+    public UserResponse(Long id, String name, String email, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.roles = roles;
     }
 
@@ -25,6 +27,7 @@ public class UserResponse {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
+        this.password = user.getPassword();
         this.roles = user.getRoles();
     }
 
@@ -50,6 +53,14 @@ public class UserResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Role> getRoles() {

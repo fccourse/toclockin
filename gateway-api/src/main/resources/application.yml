@@ -7,10 +7,14 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: myRouteClockIn
+      - id: routeClockIn
         uri: lb://toclockin
         predicates:
         - Path=/toclockin/**
+      - id: routeOauth
+        uri: lb://oauth-api
+        predicates:
+        - Path=/oauth/**
       discovery:
         locator:
           enabled: true

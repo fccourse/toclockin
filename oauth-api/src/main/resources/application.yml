@@ -1,10 +1,6 @@
 spring:
   application:
-    name: toclockin
-  datasource:
-    url: jdbc:mariadb://localhost:3306/toclockindb?createDatabaseIfNotExist=true&useSSL=false
-    username: root
-    password: root
+    name: oauth-api
 
 eureka:
   client:
@@ -15,3 +11,11 @@ eureka:
 
 server:
   port: ${PORT:0}
+
+jwt:
+  secret: jwt-secret
+
+oauth:
+  client:
+    name: toclockin
+    secret: toclockin-secret
