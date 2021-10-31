@@ -2,12 +2,14 @@ package digital.ilia.toclockinapi.exceptions.handler;
 
 import digital.ilia.toclockinapi.dtos.response.Error;
 import digital.ilia.toclockinapi.dtos.response.ResponseErrors;
+import digital.ilia.toclockinapi.exceptions.UnknownTypeTimeTrackingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -34,5 +36,14 @@ public class ControllerAdviceHandler extends ResponseEntityExceptionHandler {
         });
 
         return handleExceptionInternal(ex, new ResponseErrors(errors), headers, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({UnknownTypeTimeTrackingException.class})
+    public ResponseEntity<Object> handleUnknownTypeTimeTrackingException(UnknownTypeTimeTrackingException ex, WebRequest request) {
+        String userMessage = "The assigned type could not be identified.";
+        String errorMessage = ex.toString();
+        List<Error> errors = List.of(new Error(userMessage, errorMessage));
+
+        return handleExceptionInternal(ex, new ResponseErrors(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }
