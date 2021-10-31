@@ -1,0 +1,9 @@
+spring:
+  application.name: discovery-api
+
+server:
+  port: 8761
+
+eureka:
+  client.register-with-eureka: false
+  client.fetch-registry: false
