@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: GATEWAY-API
+  cloud:
+    gateway:
+      routes:
+      - id: myRouteClockIn
+        uri: lb://TOCLOCKIN
+        predicates:
+        - Path=/toclockin/**
+      discovery:
+        locator:
+          enabled: true
+    discovery:
+      enabled: true
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka
