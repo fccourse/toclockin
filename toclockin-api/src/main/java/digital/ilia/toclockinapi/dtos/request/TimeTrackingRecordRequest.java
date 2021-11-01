@@ -15,23 +15,23 @@ public class TimeTrackingRecordRequest {
     @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonProperty("date")
-    private LocalDateTime timeTrackingDate;
+    @JsonProperty("dataHora")
+    private LocalDateTime dataHora;
 
     @Size(min = 3, max = 200)
     private String userMessage;
 
     public TimeTrackingRecordRequest(LocalDateTime timeTrackingDate, String userMessage) {
-        this.timeTrackingDate = timeTrackingDate;
+        this.dataHora = timeTrackingDate;
         this.userMessage = userMessage;
     }
 
-    public LocalDateTime getTimeTrackingDate() {
-        return timeTrackingDate;
+    public LocalDateTime getDataHora() {
+        return dataHora;
     }
 
-    public void setTimeTrackingDate(LocalDateTime timeTrackingDate) {
-        this.timeTrackingDate = timeTrackingDate;
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
     }
 
     public String getUserMessage() {
@@ -47,11 +47,11 @@ public class TimeTrackingRecordRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeTrackingRecordRequest that = (TimeTrackingRecordRequest) o;
-        return Objects.equals(timeTrackingDate, that.timeTrackingDate) && Objects.equals(userMessage, that.userMessage);
+        return Objects.equals(dataHora, that.dataHora) && Objects.equals(userMessage, that.userMessage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeTrackingDate, userMessage);
+        return Objects.hash(dataHora, userMessage);
     }
 }

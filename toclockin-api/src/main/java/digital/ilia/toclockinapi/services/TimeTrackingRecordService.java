@@ -32,7 +32,7 @@ public class TimeTrackingRecordService {
     }
 
     public HandlerTimeTrackingRecord saveTimeTrackingRecord(TimeTrackingRecordRequest request, String email) {
-        var todayDate = request.getTimeTrackingDate();
+        var todayDate = request.getDataHora();
 
         if (isSaturdayOrSunday(todayDate)) {
             return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.NOT_WEEKENDS,
@@ -42,7 +42,7 @@ public class TimeTrackingRecordService {
                 throw new EmptyResultDataAccessException(1);
             });
 
-            List<TimeTrackingRecord> todayTimeTrackings = getTodayTimeTrackingRecords(user, request.getTimeTrackingDate());
+            List<TimeTrackingRecord> todayTimeTrackings = getTodayTimeTrackingRecords(user, request.getDataHora());
 
             if (todayTimeTrackings.size() >= 4) {
                 return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.ALREADY_DAY,
@@ -68,7 +68,7 @@ public class TimeTrackingRecordService {
                 timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_START);
                 break;
             case 2:
-                Long timeDifferenceLunch = timeDifferenceLunch(todayTimeTrackings, request.getTimeTrackingDate());
+                Long timeDifferenceLunch = timeDifferenceLunch(todayTimeTrackings, request.getDataHora());
                 if (timeDifferenceLunch <= 3600000) {
                     type = HandlerTimeTrackingType.ONE_HOUR_LUNCH;
                     messageReturn = "There should be a one-hour lunch break.";

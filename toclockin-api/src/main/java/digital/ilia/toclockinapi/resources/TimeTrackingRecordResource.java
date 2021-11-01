@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/hits")
+@RequestMapping("/batidas")
 public class TimeTrackingRecordResource {
 
     private TimeTrackingRecordService timeTrackingService;

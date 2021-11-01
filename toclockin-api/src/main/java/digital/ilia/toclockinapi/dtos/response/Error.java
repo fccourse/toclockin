@@ -2,27 +2,17 @@ package digital.ilia.toclockinapi.dtos.response;
 
 public class Error {
 
-    private String userMessage;
-    private String errorMessage;
+    private String mensagem;
 
-    public Error(String userMessage, String errorMessage) {
-        this.userMessage = userMessage;
-        this.errorMessage = errorMessage;
+    public Error(String userMessage) {
+        this.mensagem = userMessage;
     }
 
-    public String getUserMessage() {
-        return userMessage;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setUserMessage(String userMessage) {
-        this.userMessage = userMessage;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

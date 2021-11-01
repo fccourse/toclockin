@@ -34,7 +34,7 @@ public class TimeTrackingRecord {
     }
 
     public TimeTrackingRecord(TimeTrackingRecordRequest request, User user, TimeTrackingType type) {
-        this.timeTrackingDate = request.getTimeTrackingDate();
+        this.timeTrackingDate = request.getDataHora();
         this.userMessage = request.getUserMessage();
         this.timeTrackingType = type;
         this.user = user;
