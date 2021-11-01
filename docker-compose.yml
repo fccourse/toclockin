@@ -1,0 +1,68 @@
+version: '2'
+services:
+    db:
+        image: mariadb
+        ports:
+            - 3306:3306
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: toclockindb
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        networks:
+            - toclockin-net
+    discovery-server:
+        container_name: discovery-server
+        depends_on:
+            - db
+        build:
+            context: discovery-api
+            dockerfile: Dockerfile
+        image: discovery-server:latest
+        ports:
+            - 8083:8083
+        networks:
+            - toclockin-net
+    gateway-server:
+        container_name: gateway-server
+        depends_on:
+            - db
+            - discovery-server
+        build:
+            context: gateway-api
+            dockerfile: Dockerfile
+        image: gateway-server:latest
+        ports:
+            - 8080:8080
+        networks:
+            - toclockin-net
+    oauth-api:
+        container_name: oauth-api
+        depends_on:
+            - db
+            - discovery-server
+            - gateway-server
+            - toclockin-api
+        build:
+            context: oauth-api
+            dockerfile: Dockerfile
+        image: oauth-api:latest
+        networks:
+            - toclockin-net
+    toclockin-api:
+        container_name: toclockin-api
+        depends_on:
+            - db
+            - discovery-server
+            - gateway-server
+        build:
+            context: toclockin-api
+            dockerfile: Dockerfile
+        image: toclockin-api:latest
+        networks:
+            - toclockin-net
+networks:
+    toclockin-net:
+        name: toclockin-net
+        driver: bridge
