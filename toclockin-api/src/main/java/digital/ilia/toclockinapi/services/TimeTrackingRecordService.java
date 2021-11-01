@@ -36,7 +36,7 @@ public class TimeTrackingRecordService {
 
         if (isSaturdayOrSunday(todayDate)) {
             return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.NOT_WEEKENDS,
-                    "It is not possible to register the point on weekends.", null);
+                    "Sábado e domingo não são permitidos como dia de trabalho", null);
         } else {
             User user = userRepository.findByEmail(email).orElseThrow(() -> {
                 throw new EmptyResultDataAccessException(1);
@@ -46,7 +46,7 @@ public class TimeTrackingRecordService {
 
             if (todayTimeTrackings.size() >= 4) {
                 return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.ALREADY_DAY,
-                        "You have already registered all the points of the day.", null);
+                        "Apenas 4 horários podem ser registrados por dia", null);
             } else {
                 return validateTimeTrackingRecord(request, user, todayTimeTrackings);
             }
@@ -71,7 +71,7 @@ public class TimeTrackingRecordService {
                 Long timeDifferenceLunch = timeDifferenceLunch(todayTimeTrackings, request.getDataHora());
                 if (timeDifferenceLunch <= 3600000) {
                     type = HandlerTimeTrackingType.ONE_HOUR_LUNCH;
-                    messageReturn = "There should be a one-hour lunch break.";
+                    messageReturn = "Deve haver no mínimo 1 hora de almoço";
                 } else {
                     timeTracking = saveTimeTrackingRecordByType(request, user, TimeTrackingType.LUNCH_RETURN);
                 }
