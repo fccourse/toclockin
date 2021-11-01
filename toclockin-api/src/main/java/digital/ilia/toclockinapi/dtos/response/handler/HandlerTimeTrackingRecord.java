@@ -67,7 +67,7 @@ public class HandlerTimeTrackingRecord {
         } else if (this.getType() == HandlerTimeTrackingType.NOT_WEEKENDS) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         } else if (this.getType() == HandlerTimeTrackingType.UNEXPECTED_OPERATION) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } else {
             throw new UnknownTypeTimeTrackingException("The assigned type could not be identified.");
         }

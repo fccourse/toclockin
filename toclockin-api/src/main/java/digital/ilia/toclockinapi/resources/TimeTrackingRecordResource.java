@@ -20,9 +20,9 @@ public class TimeTrackingRecordResource {
         this.timeTrackingService = timeTrackingService;
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity saveTimeTrackingRecord(@Valid @RequestBody TimeTrackingRecordRequest request, @PathVariable("userId") Long userId) {
-        HandlerTimeTrackingRecord handle = timeTrackingService.saveTimeTrackingRecord(request, userId);
+    @PostMapping
+    public ResponseEntity saveTimeTrackingRecord(@RequestParam String email, @Valid @RequestBody TimeTrackingRecordRequest request) {
+        HandlerTimeTrackingRecord handle = timeTrackingService.saveTimeTrackingRecord(request, email);
         return handle.responseValidationHandleType();
     }
 

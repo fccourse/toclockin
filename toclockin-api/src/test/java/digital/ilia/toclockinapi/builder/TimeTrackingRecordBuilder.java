@@ -57,8 +57,8 @@ public class TimeTrackingRecordBuilder {
         return this;
     }
 
-    public TimeTrackingRecordBuilder saveTimeTrackingRecordBuilder(Long userId, TimeTrackingRecordService service) {
-        this.handle = service.saveTimeTrackingRecord(new TimeTrackingRecordRequest(this.timeTrackingDate, this.userMessage), userId);
+    public TimeTrackingRecordBuilder saveTimeTrackingRecordBuilder(String email, TimeTrackingRecordService service) {
+        this.handle = service.saveTimeTrackingRecord(new TimeTrackingRecordRequest(this.timeTrackingDate, this.userMessage), email);
         return this;
     }
 

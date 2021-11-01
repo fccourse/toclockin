@@ -37,11 +37,11 @@ class TimeTrackingRecordTest {
     @BeforeAll
     public void init() {
         userEmployee = userRepository
-                .findById(1L)
+                .findByEmail("pedro@teste.com")
                 .orElse(null);
 
         userManager = userRepository
-                .findById(2L)
+                .findByEmail("maria@teste.com")
                 .orElse(null);
     }
 
@@ -50,7 +50,7 @@ class TimeTrackingRecordTest {
     void saveTimeTrackingRecordTest() {
         HandlerTimeTrackingRecord handle = new TimeTrackingRecordBuilder("Entry")
                 .buildHourEntry(2021, 10, 29)
-                .saveTimeTrackingRecordBuilder(userManager.getId(), timeTrackingRecordService)
+                .saveTimeTrackingRecordBuilder(userManager.getEmail(), timeTrackingRecordService)
                 .builder();
 
         var timeTracking = timeTrackingRepository.findById(handle.getTimeTrackingRecord().getId());
@@ -61,10 +61,10 @@ class TimeTrackingRecordTest {
     @Order(2)
     void fullFlow_SaveTimeTrackingRecordTest() {
         HandlerTimeTrackingRecord handle = new TimeTrackingRecordBuilder("Entry")
-                .entry().saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
-                .lunch().saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
-                .lunchReturn().saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
-                .exit().saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
+                .entry().saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
+                .lunch().saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
+                .lunchReturn().saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
+                .exit().saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
 
         List<TimeTrackingRecord> todayTimeTrackings = getTodayTimeTrackingRecords(userEmployee, handle.getTimeTrackingRecord().getTimeTrackingDate());
@@ -76,7 +76,7 @@ class TimeTrackingRecordTest {
     void maxFourHours_SaveTimeTrackingRecordTest() {
         HandlerTimeTrackingRecord handle = new TimeTrackingRecordBuilder("Entry")
                 .entry()
-                .saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
+                .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
         Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.ALREADY_DAY);
     }
@@ -86,7 +86,7 @@ class TimeTrackingRecordTest {
     void lunchTimeOneHour_SaveTimeTrackingRecordTest() {
         HandlerTimeTrackingRecord handle = new TimeTrackingRecordBuilder("Entry")
                 .entry()
-                .saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
+                .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
 
         Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.ALREADY_DAY);
@@ -97,7 +97,7 @@ class TimeTrackingRecordTest {
     void weekendRule_SaveTimeTrackingRecordTest() {
         HandlerTimeTrackingRecord handle = new TimeTrackingRecordBuilder("Entry")
                 .buildHourEntry(2021, 10, 31)
-                .saveTimeTrackingRecordBuilder(userEmployee.getId(), timeTrackingRecordService)
+                .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
 
         Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.NOT_WEEKENDS);

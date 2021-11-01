@@ -3,6 +3,7 @@ package digital.ilia.toclockinapi.exceptions.handler;
 import digital.ilia.toclockinapi.dtos.response.Error;
 import digital.ilia.toclockinapi.dtos.response.ResponseErrors;
 import digital.ilia.toclockinapi.exceptions.UnknownTypeTimeTrackingException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,14 @@ public class ControllerAdviceHandler extends ResponseEntityExceptionHandler {
         List<Error> errors = List.of(new Error(userMessage, errorMessage));
 
         return handleExceptionInternal(ex, new ResponseErrors(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler({EmptyResultDataAccessException.class})
+    public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
+        String userMessage = "User not found.";
+        String errorMessage = ex.toString();
+        List<Error> errors = List.of(new Error(userMessage, errorMessage));
+
+        return handleExceptionInternal(ex, new ResponseErrors(errors), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }

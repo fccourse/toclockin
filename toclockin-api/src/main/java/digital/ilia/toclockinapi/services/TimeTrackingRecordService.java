@@ -11,6 +11,7 @@ import digital.ilia.toclockinapi.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -30,14 +31,17 @@ public class TimeTrackingRecordService {
         this.userRepository = userRepository;
     }
 
-    public HandlerTimeTrackingRecord saveTimeTrackingRecord(TimeTrackingRecordRequest request, Long userId) {
+    public HandlerTimeTrackingRecord saveTimeTrackingRecord(TimeTrackingRecordRequest request, String email) {
         var todayDate = request.getTimeTrackingDate();
 
         if (isSaturdayOrSunday(todayDate)) {
             return setHandlerTimeTrackingRecord(HandlerTimeTrackingType.NOT_WEEKENDS,
                     "It is not possible to register the point on weekends.", null);
         } else {
-            User user = userRepository.findById(userId).get();
+            User user = userRepository.findByEmail(email).orElseThrow(() -> {
+                throw new EmptyResultDataAccessException(1);
+            });
+
             List<TimeTrackingRecord> todayTimeTrackings = getTodayTimeTrackingRecords(user, request.getTimeTrackingDate());
 
             if (todayTimeTrackings.size() >= 4) {
