@@ -78,7 +78,7 @@ class TimeTrackingRecordTest {
                 .entry()
                 .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
-        Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.ALREADY_DAY);
+        Assertions.assertSame(HandlerTimeTrackingType.ALREADY_DAY, handle.getType());
     }
 
     @Test
@@ -89,7 +89,7 @@ class TimeTrackingRecordTest {
                 .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
 
-        Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.ALREADY_DAY);
+        Assertions.assertSame(HandlerTimeTrackingType.ALREADY_DAY, handle.getType());
     }
 
     @Test
@@ -100,7 +100,7 @@ class TimeTrackingRecordTest {
                 .saveTimeTrackingRecordBuilder(userEmployee.getEmail(), timeTrackingRecordService)
                 .builder();
 
-        Assertions.assertTrue(handle.getType() == HandlerTimeTrackingType.NOT_WEEKENDS);
+        Assertions.assertSame(HandlerTimeTrackingType.NOT_WEEKENDS, handle.getType());
     }
 
     private List<TimeTrackingRecord> getTodayTimeTrackingRecords(User user, LocalDateTime time) {
